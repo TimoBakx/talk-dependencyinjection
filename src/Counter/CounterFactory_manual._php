@@ -1,0 +1,33 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Counter;
+
+use App\Entity\StatisticsType;
+
+final class CounterFactory
+{
+    /**
+     * @var CounterInterface[]
+     */
+    private $counters = [];
+
+    /**
+     * @param CounterInterface[] $counters
+     */
+    public function __construct(CounterInterface ...$counters)
+    {
+        foreach ($counters as $counter) {
+            $this->counters[\get_class($counter)] = $counter;
+        }
+    }
+
+    public function get(StatisticsType $type): CounterInterface
+    {
+        if (isset($this->counters[$type->getCounterClass()])) {
+            return $this->counters[$type->getCounterClass()];
+        }
+
+        throw new \RuntimeException(sprintf('Counter %s not found', $type->getCounterClass()));
+    }
+}
