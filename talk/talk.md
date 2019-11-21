@@ -1,15 +1,33 @@
 # Talk SymfonyCon
 
-## Dependency Injection
+## Take aways from this talk
+What Dependency Injection Is
+Why you should use dependency injection
+How it works in Symfony
+
+## What is Dependecy Injection?
+Design pattern, not a framework or library.
+Two sides of the problem:
+	1 - passing in your dependencies as arguments, be it at the constructor level, the method level or as a field (injection)
+	2 - how, where and by whom are said dependencies created
+
+Options: Do it yourself or use libraries/support/frameworks
+
+## Why you should care about and use Dependency Injection
+Standard reply: it makes your code testable.
+Tacit implication: it forces you to think about what dependencies there are and how best to structure them.
+Even if you don't write tests for your code, thinking about your dependencies will lead to better code.
+
+## Dependency Injection in Symfony
 Dependency injection has been a big part of Symfony for a long time. From
-using services in controllers to depending packages and bundles in our business
+using services in controllers to depending on(?) packages and bundles in our business
 logic classes.
 
 ![Default services.yaml](slides/slide-1.png)
 
 The Symfony Dependency Injection package and bundle supply
-a solid base to make DI as work as smoothly as possible and new features
-are released often.
+a solid base and can make DI work for you as smoothly as possible. It's an up to date package and
+new features are released often.
 
 ## Autowiring, the regular way
 Since Symfony 3.3, autowiring is turned on by default and it makes the lives
@@ -26,7 +44,7 @@ class is automatically injected into the depending service.
 
 Sometimes, a service needs to rely on different implementations of a contract
 (interface) depending on various situations or variables. When this happens,
-a Factory may help out deciding which implementation to choose.
+a Factory may help out in deciding which implementation to choose.
 
 ## Autowiring factories
 Autowiring factories can be tricky, though. Wiring all possible implementations
@@ -55,7 +73,7 @@ the `_instanceof` option of the service container configuration, you can tag
 all implementations of an interface in 1 go.
 
 ## New in Symfony 4.4: !tagged_locator
-In Symfony 4.4, creating a service locator is made easier to implement by
+In Symfony 4.4, the creation of a service locator is made easier by
 adding the `!tagged_locator` configuration option. Using this option will
 automatically generate a `ServiceLocator` instance containing all services
 that are tagged with a specific tag.
@@ -63,11 +81,11 @@ that are tagged with a specific tag.
 ![services.yaml with !tagged_locator](slides/slide-8.png)
 
 This way, you will no longer have to write your own compiler pass. This will
-save time and lets you focus on what's most important: adding more implementations
+save you time and lets you focus on what's most important: adding more implementations
 of your interface.
 
 ## Multiple handlers
-Say you have again an interface and multiple implementations of that interface,
+Say you have an interface and multiple implementations of that interface,
 but this time, you need to use all of them instead of 1 specific one.
 
 ![Handler implementation with loop](slides/slide-9.png)
@@ -84,7 +102,12 @@ a dependency, so you can loop through them.
 
 ![services.yaml with _instanceof & !tagged_iterator](slides/slide-10.png)
 
+
+## Summary
+//TODO: one final slide mentioning the different techniques
+
+## Thank you
 I hope you are as plesantly surprised by the improvements in Symfony that
-makes our lives as developers easier again and again. I know that in half
+make our lives as developers easier again and again. I know that in half
 of my projects, I can delete quite a chunk of code after upgrading to the
 latest version of Symfony. 
